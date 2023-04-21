@@ -13,5 +13,9 @@
     </head>
     <body>
     <h1>Welcome to DataEntryHome</h1>
+    <form action="/3Tier/dataentryservlet" method="post">
+        <input type="text" name="query" placeholder="query" />
+        <input type="submit" value="Submit" />
+    </form>
     </body>
 </html>

@@ -15,8 +15,30 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
-    <error-page>
-        <error-code>403</error-code>
-        <location>/WEB-INF/jsp/403.jsp</location>
-    </error-page>
+    <servlet>
+        <servlet-name>clientuserservlet</servlet-name>
+        <servlet-class>ClientUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>clientuserservlet</servlet-name>
+        <url-pattern>/clientuserservlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>rootuserservlet</servlet-name>
+        <servlet-class>RootUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>rootuserservlet</servlet-name>
+        <url-pattern>/rootuserservlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>dataentryservlet</servlet-name>
+        <servlet-class>DataEntryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dataentryservlet</servlet-name>
+        <url-pattern>/dataentryservlet</url-pattern>
+    </servlet-mapping>
 </web-app>

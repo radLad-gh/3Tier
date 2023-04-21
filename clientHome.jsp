@@ -13,7 +13,9 @@
     </head>
     <body>
     <h1>Welcome to ClientHome</h1>
-    <input type="text" name="query" placeholder="query" />
-    <input type="submit" value="Submit" />
+    <form action="/3Tier/clientuserservlet" method="post">
+        <input type="text" name="query" placeholder="query" />
+        <input type="submit" value="Submit" />
+    </form>
     </body>
 </html>
