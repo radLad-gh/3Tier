@@ -1,13 +1,13 @@
-import jakarta.servlet.ServletConfig;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -15,29 +15,37 @@ import java.util.Properties;
  */
 public class RootUserServlet extends HttpServlet {
 
-    private DBConnector conn;
-    private static final String ctx = "/3Tier";
-
-    public RootUserServlet() {
-
-    }
-
     @Override
-    public void init(ServletConfig cfg) throws ServletException {
-        super.init(cfg);
-        Properties props = retrieveCredentials(ctx + "/WEB-INF/lib/root.properties");
-        conn = new DBConnector(props);
-    }
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ResultSetMetaData meta = conn.query(req.getParameter("query"));
-        if (meta == null) {
-            resp.setStatus(500);
-            resp.sendRedirect(ctx + "/errorpage.jsp");
+        String query = req.getParameter("query");
+        Properties props = retrieveCredentials("./webapps/3Tier/WEB-INF/lib/root.properties");
+        DBConnector conn = new DBConnector(props);
+        String ret = null;
+
+        try {
+            if (firstWordOf(query).equalsIgnoreCase("select")) {
+                conn.select(query);
+                ret = Converter.convert(conn.getResultSet());
+            } else {
+                ret = conn.update(query) + " rows updated.";
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        String res = conn.getResultSet();
-        conn.disconnect();
+
+        HttpSession session = req.getSession();
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/rootHome.jsp");
+
+        session.setAttribute("query", query);
+        session.setAttribute("tableContent", ret);
+        dispatcher.forward(req, resp);
+    }
+
+    // "SELECT * FROM SUPPLIERS" => ["SELECT", "* FROM SUPPLIERS"]
+    private String firstWordOf(String query) {
+        String[] tmp = query.split(" ", 2);
+        return tmp[0];
     }
 
     public Properties retrieveCredentials(String file) {
@@ -48,7 +56,7 @@ public class RootUserServlet extends HttpServlet {
             fin = new FileInputStream(file);
             props.load(fin);
         } catch (final IOException readErr) {
-            JOptionPane.showMessageDialog(null, readErr.getMessage(), "Could not load credentials from file", JOptionPane.ERROR_MESSAGE);
+            System.err.println("Failed to load credentials");
         }
 
         return props;

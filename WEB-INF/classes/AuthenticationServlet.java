@@ -12,9 +12,7 @@ import java.util.List;
 
 public class AuthenticationServlet extends HttpServlet {
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws IOException
-    {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String ctx = request.getContextPath();
@@ -22,11 +20,13 @@ public class AuthenticationServlet extends HttpServlet {
         String credentialsPath = "/WEB-INF/lib/credentials.txt";
         InputStream input = getServletContext().getResourceAsStream(credentialsPath);
 
+        // Scan credentials file for user input match
         try (BufferedReader br = new BufferedReader(new InputStreamReader(input))) {
             while(br.ready()) {
                 String line = br.readLine();
                 String[] auth = line.split(",", 2);
 
+                // Fast fail on username, con is non-specific error messages
                 if (auth[0].equals(username) && auth[1].equals(password)) {
                     if (username.equals("root")) {
                         response.sendRedirect(ctx + "/rootHome.jsp");
@@ -41,6 +41,7 @@ public class AuthenticationServlet extends HttpServlet {
                     }
                 }
             }
+            // If no entry matches the user's input
             response.sendRedirect(ctx + "/errorpage.jsp");
         } catch (Exception e) {
             System.err.println("Error: cannot find file");

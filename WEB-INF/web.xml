@@ -21,7 +21,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>clientuserservlet</servlet-name>
-        <url-pattern>/clientuserservlet</url-pattern>
+        <url-pattern>/ClientUserApp</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -30,7 +30,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>rootuserservlet</servlet-name>
-        <url-pattern>/rootuserservlet</url-pattern>
+        <url-pattern>/RootUserApp</url-pattern>
     </servlet-mapping>
 
     <servlet>

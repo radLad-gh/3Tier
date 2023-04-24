@@ -13,9 +13,42 @@
     </head>
     <body>
     <h1>Welcome to DataEntryHome</h1>
-    <form action="/3Tier/dataentryservlet" method="post">
-        <input type="text" name="query" placeholder="query" />
-        <input type="submit" value="Submit" />
+    <form action="/3Tier/Suppliers" method="post">
+        <input type="text" name="snum" placeholder="snum" />
+        <input type="text" name="sname" placeholder="sname" />
+        <input type="text" name="status" placeholder="status" />
+        <input type="text" name="city" placeholder="city" />
+        <input type="submit" value="Enter Record" />
+        <button type="button" onclick="clearInput()">Clear</button>
+
+    </form>
+    <form action="/3Tier/Parts" method="post">
+        <input type="text" name="pnum" placeholder="snum" />
+        <input type="text" name="pname" placeholder="sname" />
+        <input type="text" name="color" placeholder="color" />
+        <input type="text" name="weight" placeholder="weight" />
+        <input type="text" name="city" placeholder="city" />
+        <input type="submit" value="Enter Record" />
+        <button type="button" onclick="clearInput()">Clear</button>
+
+    </form>
+    <form action="/3Tier/Jobs" method="post">
+        <input type="text" name="jnum" placeholder="jnum" />
+        <input type="text" name="jname" placeholder="jname" />
+        <input type="text" name="numworkers" placeholder="numworkers" />
+        <input type="text" name="city" placeholder="city" />
+        <input type="submit" value="Enter Record" />
+        <button type="button" onclick="clearInput()">Clear</button>
+
+    </form>
+    <form action="/3Tier/Shipments" method="post">
+        <input type="text" name="snum" placeholder="snum" />
+        <input type="text" name="pnum" placeholder="pnum" />
+        <input type="text" name="jnum" placeholder="jnum" />
+        <input type="text" name="quantity" placeholder="quantity" />
+        <input type="submit" value="Enter Record" />
+        <button type="button" onclick="clearInput()">Clear</button>
+
     </form>
     </body>
 </html>

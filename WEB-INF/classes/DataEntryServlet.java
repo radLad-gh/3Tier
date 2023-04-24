@@ -1,12 +1,15 @@
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.ResultSetMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -14,24 +17,33 @@ import java.util.Properties;
  */
 public class DataEntryServlet extends HttpServlet {
 
-    public DataEntryServlet() {
-
-    }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         String ctx = req.getContextPath();
-        Properties props = retrieveCredentials(ctx + "/WEB-INF/lib/dataentry.properties");
+        Properties props = retrieveCredentials("./webapps/3Tier" +
+                "/WEB-INF/lib/dataentry.properties");
         DBConnector conn = new DBConnector(props);
+        String ret = null;
 
-        ResultSetMetaData meta = conn.query(req.getParameter("query"));
-        if (meta == null) {
-            resp.setStatus(500);
-            resp.sendRedirect(ctx + "/errorpage.jsp");
+        try {
+            conn.select(req.getParameter("query"));
+            if (conn.getRowCount() <= 0) {
+                resp.setStatus(500);
+                resp.sendRedirect(ctx + "/errorpage.jsp");
+            }
+            ResultSet res = conn.getResultSet();
+            ret = Converter.convert(res);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        String res = conn.getResultSet();
         conn.disconnect();
+
+        HttpSession session = req.getSession();
+        session.setAttribute("tableContent", ret);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dataentryHome.jsp");
+        dispatcher.forward(req, resp);
     }
 
     public Properties retrieveCredentials(String file) {
