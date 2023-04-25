@@ -60,7 +60,7 @@ public class RootUserServlet extends HttpServlet {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            message = ex.getMessage();
         }
 
         HttpSession session = req.getSession();

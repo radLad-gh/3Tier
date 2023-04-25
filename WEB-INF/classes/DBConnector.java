@@ -76,35 +76,25 @@ public class DBConnector extends DefaultTableModel {
     public void select(String query) throws IllegalStateException, SQLException {
         if (!isConnected) throw new IllegalStateException("Not Connected to Database");
 
-        try {
-            statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-            rs = statement.executeQuery(query);
+        statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        rs = statement.executeQuery(query);
 
-            // Move to last row to get num rows from index
-            rs.last();
-            numRows = rs.getRow();
-            numCol = rs.getMetaData().getColumnCount();
-            // Reset cursor position
-            rs.beforeFirst();
-        } catch (final SQLException sqlEx) {
-            sqlEx.printStackTrace();
-        }
-
+        // Move to last row to get num rows from index
+        rs.last();
+        numRows = rs.getRow();
+        numCol = rs.getMetaData().getColumnCount();
+        // Reset cursor position
+        rs.beforeFirst();
     }
 
     // set new database update-query string
-    public int update(String query) throws IllegalStateException {
+    public int update(String query) throws IllegalStateException, SQLException {
         if (!isConnected) throw new IllegalStateException("Not Connected to Database");
         int numRowsUpdated = 0;
-        try {
-            statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-            numRowsUpdated = statement.executeUpdate(query);
-            return numRowsUpdated;
-        } catch (final SQLException sqlEx) {
-            sqlEx.printStackTrace();
-        }
+        statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        numRowsUpdated = statement.executeUpdate(query);
         return numRowsUpdated;
     }
 

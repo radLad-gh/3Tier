@@ -27,17 +27,18 @@ public class ClientUserServlet extends HttpServlet {
         String query = req.getParameter("query");
         Properties props = retrieveCredentials("./webapps/3Tier/WEB-INF/lib/client.properties");
         DBConnector conn = new DBConnector(props);
+        String message = "";
 
         String ret = null;
         try {
-            if (firstWordOf(query).equalsIgnoreCase("select")) {
+            if (query.toLowerCase().contains("select")) {
                 conn.select(query);
                 ret = Converter.convert(conn.getResultSet());
             } else {
-                ret = "Client user only allowed SELECT queries.";
+                conn.update(query);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            message = ex.getMessage();
         }
 
         HttpSession session = req.getSession();
@@ -45,13 +46,8 @@ public class ClientUserServlet extends HttpServlet {
 
         session.setAttribute("query", query);
         session.setAttribute("tableContent", ret);
+        session.setAttribute("message", message);
         dispatcher.forward(req, resp);
-    }
-
-    // "SELECT * FROM SUPPLIERS" => ["SELECT", "* FROM SUPPLIERS"]
-    private String firstWordOf(String query) {
-        String[] tmp = query.split(" ", 2);
-        return tmp[0];
     }
 
     public Properties retrieveCredentials(String file) {
