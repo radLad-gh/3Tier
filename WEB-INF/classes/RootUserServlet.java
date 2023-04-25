@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -15,20 +16,48 @@ import java.util.Properties;
  */
 public class RootUserServlet extends HttpServlet {
 
+    private final static String UPDATE_SUPPLIERS =
+                    "UPDATE suppliers SET status = status + 5 " +
+                    "WHERE snum in (" +
+                        "SELECT snum " +
+                            "FROM shipments " +
+                            "WHERE quantity >= 100)";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         String query = req.getParameter("query");
         Properties props = retrieveCredentials("./webapps/3Tier/WEB-INF/lib/root.properties");
         DBConnector conn = new DBConnector(props);
-        String ret = null;
+
+        PreparedStatement bl;
+        int rowsUpdated;
+        int blRowsUpdated;
+        String results = "";
+        String message = "";
 
         try {
             if (firstWordOf(query).equalsIgnoreCase("select")) {
                 conn.select(query);
-                ret = Converter.convert(conn.getResultSet());
+                results = Converter.convert(conn.getResultSet());
             } else {
-                ret = conn.update(query) + " rows updated.";
+                rowsUpdated = conn.update(query);
+                if (query.toLowerCase().contains("insert into shipments")) { // business logic trigger
+                    if (rowsUpdated != 0) {
+                        bl = conn.getConnection().prepareStatement(UPDATE_SUPPLIERS);
+                        blRowsUpdated = bl.executeUpdate();
+
+                        if (blRowsUpdated != 0) {
+                            message = "updated " + blRowsUpdated + " supplier(s)";
+                        } else {
+                            message = "unable to update supplier(s)";
+                        }
+                    } else {
+                        message = "no records updated, bl not triggered";
+                    }
+                } else {
+                    message = rowsUpdated + " rows updated";
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -38,7 +67,8 @@ public class RootUserServlet extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/rootHome.jsp");
 
         session.setAttribute("query", query);
-        session.setAttribute("tableContent", ret);
+        session.setAttribute("tableContent", results);
+        session.setAttribute("message", message);
         dispatcher.forward(req, resp);
     }
 

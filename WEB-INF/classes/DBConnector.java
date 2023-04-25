@@ -96,16 +96,16 @@ public class DBConnector extends DefaultTableModel {
     // set new database update-query string
     public int update(String query) throws IllegalStateException {
         if (!isConnected) throw new IllegalStateException("Not Connected to Database");
-
+        int numRowsUpdated = 0;
         try {
             statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            numRows = statement.executeUpdate(query);
-            return numRows;
+            numRowsUpdated = statement.executeUpdate(query);
+            return numRowsUpdated;
         } catch (final SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
-        return 0;
+        return numRowsUpdated;
     }
 
     public ResultSet getResultSet() {

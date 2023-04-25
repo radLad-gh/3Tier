@@ -49,4 +49,20 @@
         <servlet-name>partsinsertservlet</servlet-name>
         <url-pattern>/Parts</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>jobsinsertservlet</servlet-name>
+        <servlet-class>JobsInsertServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jobsinsertservlet</servlet-name>
+        <url-pattern>/Jobs</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>shipmentsinsertservlet</servlet-name>
+        <servlet-class>ShipmentsInsertServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>shipmentsinsertservlet</servlet-name>
+        <url-pattern>/Shipments</url-pattern>
+    </servlet-mapping>
 </web-app>

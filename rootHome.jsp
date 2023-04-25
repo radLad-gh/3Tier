@@ -6,6 +6,9 @@
 
     String tableContent = (String) session.getAttribute("tableContent");
     if (tableContent == null) tableContent = "null";
+
+    String message = (String) session.getAttribute("message");
+    if (message == null) message = "";
 %>
 <html>
     <head>
@@ -39,6 +42,7 @@
         <p>
             <b class="main">Database Results:</b><br>
             <table id="data">
+                <p><%=message%></p>
                 <%=tableContent%>
             </table>
         </p>

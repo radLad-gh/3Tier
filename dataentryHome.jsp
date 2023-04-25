@@ -12,6 +12,9 @@
     if (jobs_rows_updated == null) jobs_rows_updated = 0;
     if (shipments_rows_updated == null) shipments_rows_updated = 0;
 
+    String shipments_results = (String) session.getAttributes("shipments_results");
+    if (shipments_results == null) shipments_results = " ";
+
 %>
 <html>
     <head>
@@ -78,6 +81,7 @@
         <button type="button" onclick="clearInput()">Clear</button>
     </form>
     <div id="shipments_results">
+        <p><%=shipments_results%></p>
         <%=shipments_rows_updated%> rows updated.
     </div>
     <hr>
