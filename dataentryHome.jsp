@@ -1,4 +1,18 @@
 <!DOC TYPE html>
+
+<%
+
+    Integer suppliers_rows_updated = (Integer) session.getAttribute("suppliers_rows_updated");
+    Integer parts_rows_updated = (Integer) session.getAttribute("parts_rows_updated");
+    Integer jobs_rows_updated = (Integer) session.getAttribute("jobs_rows_updated");
+    Integer shipments_rows_updated = (Integer) session.getAttribute("shipments_rows_updated");
+
+    if (suppliers_rows_updated == null) suppliers_rows_updated = 0;
+    if (parts_rows_updated == null) parts_rows_updated = 0;
+    if (jobs_rows_updated == null) jobs_rows_updated = 0;
+    if (shipments_rows_updated == null) shipments_rows_updated = 0;
+
+%>
 <html>
     <head>
         <title>DataEntryHome</title>
@@ -13,6 +27,8 @@
     </head>
     <body>
     <h1>Welcome to DataEntryHome</h1>
+    <hr>
+    <h3>Supplier</h3>
     <form action="/3Tier/Suppliers" method="post">
         <input type="text" name="snum" placeholder="snum" />
         <input type="text" name="sname" placeholder="sname" />
@@ -20,8 +36,12 @@
         <input type="text" name="city" placeholder="city" />
         <input type="submit" value="Enter Record" />
         <button type="button" onclick="clearInput()">Clear</button>
-
     </form>
+    <div id="suppliers_results">
+        <%=suppliers_rows_updated%> rows updated.
+    </div>
+    <hr>
+    <h3>Parts</h3>
     <form action="/3Tier/Parts" method="post">
         <input type="text" name="pnum" placeholder="snum" />
         <input type="text" name="pname" placeholder="sname" />
@@ -30,8 +50,12 @@
         <input type="text" name="city" placeholder="city" />
         <input type="submit" value="Enter Record" />
         <button type="button" onclick="clearInput()">Clear</button>
-
     </form>
+    <div id="parts_results">
+        <%=parts_rows_updated%> rows updated.
+    </div>
+    <hr>
+    <h3>Jobs</h3>
     <form action="/3Tier/Jobs" method="post">
         <input type="text" name="jnum" placeholder="jnum" />
         <input type="text" name="jname" placeholder="jname" />
@@ -39,8 +63,12 @@
         <input type="text" name="city" placeholder="city" />
         <input type="submit" value="Enter Record" />
         <button type="button" onclick="clearInput()">Clear</button>
-
     </form>
+    <div id="jobs_results">
+        <%=jobs_rows_updated%> rows updated.
+    </div>
+    <hr>
+    <h3>Shipments</h3>
     <form action="/3Tier/Shipments" method="post">
         <input type="text" name="snum" placeholder="snum" />
         <input type="text" name="pnum" placeholder="pnum" />
@@ -48,7 +76,10 @@
         <input type="text" name="quantity" placeholder="quantity" />
         <input type="submit" value="Enter Record" />
         <button type="button" onclick="clearInput()">Clear</button>
-
     </form>
+    <div id="shipments_results">
+        <%=shipments_rows_updated%> rows updated.
+    </div>
+    <hr>
     </body>
 </html>

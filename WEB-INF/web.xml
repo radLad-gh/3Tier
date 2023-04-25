@@ -34,11 +34,19 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>dataentryservlet</servlet-name>
-        <servlet-class>DataEntryServlet</servlet-class>
+        <servlet-name>suppliersinsertservlet</servlet-name>
+        <servlet-class>SuppliersInsertServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>dataentryservlet</servlet-name>
-        <url-pattern>/dataentryservlet</url-pattern>
+        <servlet-name>suppliersinsertservlet</servlet-name>
+        <url-pattern>/Suppliers</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>partsinsertservlet</servlet-name>
+        <servlet-class>PartsInsertServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>partsinsertservlet</servlet-name>
+        <url-pattern>/Parts</url-pattern>
     </servlet-mapping>
 </web-app>
