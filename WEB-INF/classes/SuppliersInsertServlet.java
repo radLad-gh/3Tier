@@ -22,7 +22,7 @@ public class SuppliersInsertServlet extends HttpServlet {
         int status = Integer.parseInt(req.getParameter("status"));
         String city = req.getParameter("city");
 
-        Properties props = retrieveCredentials("./webapps/3Tier/WEB-INF/lib/dataentry.properties");
+        Properties props = retrieveCredentials("./webapps/Project4/WEB-INF/lib/dataentry.properties");
         DBConnector conn = new DBConnector(props);
         int rowsUpdated = 0;
         PreparedStatement ps;

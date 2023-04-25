@@ -23,7 +23,7 @@ public class ShipmentsInsertServlet extends HttpServlet {
         String jnum = req.getParameter("jnum");
         int quantity = Integer.parseInt(req.getParameter("quantity"));
 
-        Properties props = retrieveCredentials("./webapps/3Tier/WEB-INF/lib/dataentry.properties");
+        Properties props = retrieveCredentials("./webapps/Project4/WEB-INF/lib/dataentry.properties");
         DBConnector conn = new DBConnector(props);
         String message = "";
         int rowsUpdated = 0;

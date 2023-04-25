@@ -22,7 +22,7 @@ public class  JobsInsertServlet extends HttpServlet {
         int numworkers = Integer.parseInt(req.getParameter("numworkers"));
         String city = req.getParameter("city");
 
-        Properties props = retrieveCredentials("./webapps/3Tier/WEB-INF/lib/dataentry.properties");
+        Properties props = retrieveCredentials("./webapps/Project4/WEB-INF/lib/dataentry.properties");
         DBConnector conn = new DBConnector(props);
         int rowsUpdated = 0;
         PreparedStatement ps;

@@ -27,7 +27,7 @@ public class RootUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         String query = req.getParameter("query");
-        Properties props = retrieveCredentials("./webapps/3Tier/WEB-INF/lib/root.properties");
+        Properties props = retrieveCredentials("./webapps/Project4/WEB-INF/lib/root.properties");
         DBConnector conn = new DBConnector(props);
 
         PreparedStatement bl;
